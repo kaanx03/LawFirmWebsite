@@ -209,26 +209,19 @@ function showNotification(message, type) {
 // Form validation
 function validateForm() {
   const nameInput = document.getElementById("name");
-  const phoneInput = document.getElementById("phone");
   const subjectInput = document.getElementById("subject");
   const messageInput = document.getElementById("message");
 
-  if (!nameInput || !phoneInput || !subjectInput || !messageInput) {
+  if (!nameInput || !subjectInput || !messageInput) {
     return false;
   }
 
   const name = nameInput.value.trim();
-  const phone = phoneInput.value.trim();
   const subject = subjectInput.value;
   const message = messageInput.value.trim();
 
   if (!name) {
     showNotification("Lütfen adınızı ve soyadınızı girin.", "error");
-    return false;
-  }
-
-  if (!phone) {
-    showNotification("Lütfen telefon numaranızı girin.", "error");
     return false;
   }
 
@@ -257,36 +250,28 @@ function initContactForm() {
         return;
       }
 
-      // Get form data
       const formData = new FormData(this);
       const name = formData.get("name");
-      const phone = formData.get("phone");
       const subject = formData.get("subject");
       const message = formData.get("message");
 
-      // Create WhatsApp message
       const subjectText = getSubjectText(subject);
       const whatsappMessage =
         "Merhaba,\n\nİsim: " +
         name +
-        "\nTelefon: " +
-        phone +
         "\nKonu: " +
         subjectText +
         "\n\nMesaj: " +
         message +
         "\n\nWeb sitesi üzerinden iletişime geçildi.";
 
-      // Open WhatsApp
       const whatsappURL =
         "https://wa.me/905075965084?text=" +
         encodeURIComponent(whatsappMessage);
       window.open(whatsappURL, "_blank");
 
-      // Show success message
       showNotification("Mesajınız WhatsApp üzerinden gönderildi!", "success");
 
-      // Reset form
       this.reset();
     });
   }
@@ -584,7 +569,7 @@ async function loadBlogPosts() {
           blog.category
         }" data-blog-id="${blog.id}">
           <div class="post-image">
-            <img src="${blog.image}" alt="${blog.title}" />
+            <img src="${blog.image}" alt="${blog.title}" loading="lazy" />
             <div class="post-category">${blog.categoryName}</div>
             <div class="post-date">${formatDate(blog.date)}</div>
           </div>

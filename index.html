@@ -8,10 +8,10 @@
       name="description"
       content="Şanlıurfa'da profesyonel hukuki danışmanlık ve avukatlık hizmetleri. Ceza, tazminat, aile ve gayrimenkul hukuku alanlarında uzman."
     />
-    <link rel="stylesheet" href="base.css" />
-    <link rel="stylesheet" href="components.css" />
-    <link rel="stylesheet" href="responsive.css" />
-    <link rel="stylesheet" href="blog-styles.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <link rel="stylesheet" href="css/blog-styles.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -449,7 +449,6 @@
             <h3>Hızlı İletişim Formu</h3>
             <p class="form-description">Size en kısa sürede dönüş yapalım</p>
             <form id="contactForm">
-              <!-- FIX 3: Telefon alanını kaldırdık, sadece Ad Soyad kaldı -->
               <div class="form-group">
                 <label for="name">Ad Soyad *</label>
                 <input
@@ -518,97 +517,12 @@
 
     <div id="footer-placeholder"></div>
 
-    <script src="components.js"></script>
-    <script src="script.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/script.js"></script>
     <script>
-      // Load blog posts on homepage
       document.addEventListener("DOMContentLoaded", function () {
         loadHomepageBlogs();
-        initHomepageBlogCards(); // Ana sayfadaki blog kartları için yeni fonksiyon çağrısı
       });
-
-      // Load blog posts from blog.json for homepage
-      async function loadHomepageBlogs() {
-        try {
-          const response = await fetch("blog.json");
-          const data = await response.json();
-
-          const blogContainer = document.getElementById("blog-container");
-          const blogLoading = document.getElementById("blog-loading");
-
-          // Hide loading
-          blogLoading.style.display = "none";
-          blogContainer.style.display = "block";
-
-          // Get first 6 blogs (all same size)
-          const recentBlogs = data.blogs.slice(0, 6);
-
-          let html = `<div class="blog-grid">`;
-
-          // Add all blogs with same design
-          recentBlogs.forEach((blog) => {
-            html += `
-              <article class="blog-card" data-blog-id="${
-                blog.id
-              }"> <div class="blog-image">
-                  <img src="${blog.image}" alt="${
-              blog.title
-            }" loading="lazy" /> <div class="blog-category">${
-              blog.categoryName
-            }</div>
-                </div>
-                <div class="blog-content">
-                  <h3>${blog.title}</h3>
-                  <p>${blog.excerpt}</p>
-                  <div class="blog-meta">
-                    <span class="blog-date">${formatDate(blog.date)}</span>
-                    <span class="blog-read-time">${blog.readTime}</span>
-                  </div>
-                  </div>
-              </article>
-            `;
-          });
-
-          html += `
-            </div>
-            <div class="blog-footer">
-              <a href="blog.html" class="view-all-btn">
-                <span>Tüm Blog Yazılarını Görüntüle</span>
-                <i class="fas fa-arrow-right"></i>
-              </a>
-            </div>
-          `;
-
-          blogContainer.innerHTML = html;
-
-          // Blog kartları yüklendikten sonra tıklama işlevini başlat
-          initHomepageBlogCards();
-        } catch (error) {
-          console.error("Blog yükleme hatası:", error);
-          document.getElementById("blog-loading").innerHTML =
-            "<p>Blog yazıları yüklenemedi.</p>";
-        }
-      }
-
-      // Yeni fonksiyon: Ana sayfadaki blog kartlarına tıklama işlevi ekler
-      function initHomepageBlogCards() {
-        const blogCards = document.querySelectorAll(".blog-card");
-        blogCards.forEach((card) => {
-          card.addEventListener("click", function () {
-            const blogId = this.getAttribute("data-blog-id");
-            if (blogId) {
-              window.location.href = `blog-detail.html?id=${blogId}`;
-            }
-          });
-        });
-      }
-
-      // Format date helper function
-      function formatDate(dateString) {
-        const date = new Date(dateString);
-        const options = { year: "numeric", month: "long", day: "numeric" };
-        return date.toLocaleDateString("tr-TR", options);
-      }
     </script>
   </body>
 </html>

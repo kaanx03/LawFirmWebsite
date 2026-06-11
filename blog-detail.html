@@ -9,10 +9,10 @@
       content="Hukuki konularda detaylı bilgiler ve uzman görüşleri."
       id="page-description"
     />
-    <link rel="stylesheet" href="base.css" />
-    <link rel="stylesheet" href="components.css" />
-    <link rel="stylesheet" href="responsive.css" />
-    <link rel="stylesheet" href="blog-detail.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <link rel="stylesheet" href="css/blog-detail.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -116,10 +116,9 @@
 
     <div id="footer-placeholder"></div>
 
-    <script src="components.js"></script>
-    <script src="script.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/script.js"></script>
     <script>
-      // Load blog content based on URL parameter
       document.addEventListener("DOMContentLoaded", function () {
         const urlParams = new URLSearchParams(window.location.search);
         const blogId = urlParams.get("id");
@@ -131,15 +130,15 @@
         }
       });
 
-      // Load blog content from blog.json
       async function loadBlogContent(blogId) {
         try {
           const response = await fetch("blog.json");
           const data = await response.json();
 
-          // Simulate loading delay
-          setTimeout(() => {
-            const blog = data.blogs.find((b) => b.id === blogId);
+          setTimeout(function () {
+            const blog = data.blogs.find(function (b) {
+              return b.id === blogId;
+            });
 
             if (blog) {
               displayBlogContent(blog);
@@ -154,18 +153,15 @@
       }
 
       function displayBlogContent(blog) {
-        // Hide loading, show content
         document.getElementById("loading").style.display = "none";
         document.getElementById("blog-content").style.display = "block";
 
-        // Update page meta
         document.getElementById("page-title").textContent =
           blog.title + " | Çadırcı Hukuk";
         document
           .getElementById("page-description")
           .setAttribute("content", blog.excerpt);
 
-        // Fill content
         document.getElementById("blog-image").src = blog.image;
         document.getElementById("blog-image").alt = blog.title;
         document.getElementById("blog-category").textContent =
@@ -179,28 +175,28 @@
         document.getElementById("blog-introduction").textContent =
           blog.content.introduction;
 
-        // Fill sections
         const sectionsContainer = document.getElementById("blog-sections");
         sectionsContainer.innerHTML = "";
 
-        blog.content.sections.forEach((section) => {
+        blog.content.sections.forEach(function (section) {
           const sectionDiv = document.createElement("div");
           sectionDiv.className = "content-section";
-          sectionDiv.innerHTML = `
-            <h3 class="section-title">${section.title}</h3>
-            <p class="section-content">${section.content}</p>
-          `;
+          sectionDiv.innerHTML =
+            '<h3 class="section-title">' +
+            section.title +
+            "</h3>" +
+            '<p class="section-content">' +
+            section.content +
+            "</p>";
           sectionsContainer.appendChild(sectionDiv);
         });
 
-        // Fill conclusion
         if (blog.content.conclusion) {
           document.getElementById("blog-conclusion").style.display = "block";
           document.getElementById("conclusion-text").textContent =
             blog.content.conclusion;
         }
 
-        // Store current blog for sharing
         window.currentBlog = blog;
       }
 
@@ -209,44 +205,36 @@
         document.getElementById("error").style.display = "block";
       }
 
-      function formatDate(dateString) {
-        const date = new Date(dateString);
-        const options = { year: "numeric", month: "long", day: "numeric" };
-        return date.toLocaleDateString("tr-TR", options);
-      }
-
-      // Share functions
       function shareOnFacebook() {
-        const url = encodeURIComponent(window.location.href);
+        var url = encodeURIComponent(window.location.href);
         window.open(
-          `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+          "https://www.facebook.com/sharer/sharer.php?u=" + url,
           "_blank"
         );
       }
 
       function shareOnTwitter() {
-        const url = encodeURIComponent(window.location.href);
-        const text = encodeURIComponent(window.currentBlog?.title || "");
+        var url = encodeURIComponent(window.location.href);
+        var text = encodeURIComponent(window.currentBlog ? window.currentBlog.title : "");
         window.open(
-          `https://twitter.com/intent/tweet?url=${url}&text=${text}`,
+          "https://twitter.com/intent/tweet?url=" + url + "&text=" + text,
           "_blank"
         );
       }
 
       function shareOnLinkedIn() {
-        const url = encodeURIComponent(window.location.href);
+        var url = encodeURIComponent(window.location.href);
         window.open(
-          `https://www.linkedin.com/sharing/share-offsite/?url=${url}`,
+          "https://www.linkedin.com/sharing/share-offsite/?url=" + url,
           "_blank"
         );
       }
 
       function shareOnWhatsApp() {
-        const url = encodeURIComponent(window.location.href);
-        const text = encodeURIComponent(
-          `${window.currentBlog?.title || ""} - ${url}`
-        );
-        window.open(`https://wa.me/?text=${text}`, "_blank");
+        var url = encodeURIComponent(window.location.href);
+        var title = window.currentBlog ? window.currentBlog.title : "";
+        var text = encodeURIComponent(title + " - " + url);
+        window.open("https://wa.me/?text=" + text, "_blank");
       }
     </script>
   </body>

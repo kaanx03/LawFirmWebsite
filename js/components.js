@@ -115,8 +115,8 @@ class ComponentLoader {
   static async loadAllComponents() {
     // Load components in parallel
     await Promise.all([
-      this.loadComponent("#navbar-placeholder", "navbar.html"),
-      this.loadComponent("#footer-placeholder", "footer.html"),
+      this.loadComponent("#navbar-placeholder", "components/navbar.html"),
+      this.loadComponent("#footer-placeholder", "components/footer.html"),
     ]);
 
     // Initialize navigation functionality after components are loaded
